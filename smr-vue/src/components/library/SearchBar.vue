@@ -1,23 +1,24 @@
 <template>
-  <div style="margin-bottom: 30px; display: flex; justify-content: center; align-items: center">
+  <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center">
     <el-input
       @keyup.enter.native="searchClick"
-      placeholder="input title or director to search"
+      placeholder="please input the title..."
       prefix-icon="el-icon-search"
       size="small"
       style="width: 400px;margin-right: 10px"
-      v-model="keywords"></el-input>
-    <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">Search</el-button>
+      v-model="keywords">
+    </el-input>
+    <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">search</el-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'searchBar',
+  name: 'SearchBar',
   data () {
     return {
       keywords: '',
-      movies: [],
+      books: [],
       cardLoading: []
     }
   },

@@ -44,12 +44,7 @@ export default {
   components: {EditForm, searchBar},
   data () {
     return {
-      movies: [{
-        cover: 'https://i.loli.net/2019/04/10/5cada7e73d601.jpg',
-        title: '三体',
-        director: '刘慈欣',
-        starring: 'sb'
-      }],
+      movies: [],
       currentPage: 1,
       pageSize: 20
     }
@@ -59,7 +54,7 @@ export default {
   },
   methods: {
     loadMovies () {
-      var _this = this
+      const _this = this
       this.$axios.get('/movies').then(resp => {
         if (resp && resp.status === 200) {
           _this.movies = resp.data

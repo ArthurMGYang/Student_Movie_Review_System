@@ -19,11 +19,8 @@
         <el-form-item label="date" :label-width="formLabelWidth" prop="date">
           <el-input v-model="form.date" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="link" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="form.link" autocomplete="off" placeholder="link to the review page of this movie"></el-input>
-        </el-form-item>
         <el-form-item label="public_resource" :label-width="formLabelWidth" prop="public_resource">
-          <el-input v-model="form.public_resource" autocomplete="off" placeholder="public resouorce link if there is one"></el-input>
+          <el-input v-model="form.public_resource" autocomplete="off" placeholder="public resource link if there is one"></el-input>
         </el-form-item>
         <el-form-item label="category" :label-width="formLabelWidth" prop="categoryID">
           <el-select v-model="form.category.id" placeholder="select one category">
@@ -62,10 +59,6 @@ export default {
         director: '',
         starring: '',
         date: '',
-        link: '',
-        rank: '',
-        total_rank: '',
-        rank_people: '',
         public_resource: '',
         category: {
           id: '',
@@ -84,10 +77,6 @@ export default {
         director: '',
         starring: '',
         date: '',
-        link: '',
-        rank: '',
-        total_rank: '',
-        rank_people: '',
         public_resource: '',
         category: ''
       }
@@ -101,10 +90,6 @@ export default {
           director: this.form.director,
           starring: this.form.starring,
           data: this.form.date,
-          link: this.form.link,
-          rank: 0,
-          total_rank: 0,
-          rank_people: 0,
           public_resource: this.form.public_resource,
           category: this.form.category
         }).then(resp => {
