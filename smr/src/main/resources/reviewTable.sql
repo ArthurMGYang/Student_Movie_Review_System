@@ -1,0 +1,16 @@
+CREATE TABLE `review`(
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`uID` INT(11)  NULL,
+	`mID` INT(11) DEFAULT NULL,
+	`rank1` INT(11) DEFAULT 0,
+	`rank2` INT(11) DEFAULT 0,
+	`content` VARCHAR(255) DEFAULT NULL,
+	`watch_date` VARCHAR(255) DEFAULT NULL,
+	`watch_place` VARCHAR(255) DEFAULT NULL,
+	PRIMARY KEY(`id`),
+	KEY `fk_review_user_on_uID` (`uID`),
+	KEY `fk_review_movie_on_mID` (`mID`),
+	CONSTRAINT `fk_review_user_on_uID` FOREIGN KEY (`uID`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT `fk_review_movie_on_mID` FOREIGN KEY (`mID`) REFERENCES `movie` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+)ENGINE=INNODB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+
