@@ -43,4 +43,9 @@ public class ReviewService {
         return reviewDAO.findAllByUser(user);
     }
 
+    public List<Review> listByUserName(String username){
+        User user = userService.getByName(username);
+        return reviewDAO.findAllByUser(user);
+    }
+
 }

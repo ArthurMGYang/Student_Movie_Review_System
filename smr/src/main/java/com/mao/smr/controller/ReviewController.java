@@ -4,6 +4,7 @@ import com.mao.smr.entity.Review;
 import com.mao.smr.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -24,13 +25,9 @@ public class ReviewController {
         return review;
     }
 
-    @GetMapping("/api/reviews/users/{uid}")
-    public List<Review> listByUser(@PathVariable("uid") int uid) throws Exception{
-        if(0 != uid){
-            return reviewService.listByUser(uid);
-        }else {
-            return null;
-        }
+    @GetMapping("/api/reviews/users/{username}")
+    public List<Review> listByUser(@PathVariable("username") String username) throws Exception{
+        return reviewService.listByUserName(username);
     }
 
     @GetMapping("/api/reviews/movies/{mid}")
