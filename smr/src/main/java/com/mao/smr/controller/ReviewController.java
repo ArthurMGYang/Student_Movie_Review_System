@@ -1,5 +1,6 @@
 package com.mao.smr.controller;
 
+import com.mao.smr.entity.Movie;
 import com.mao.smr.entity.Review;
 import com.mao.smr.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class ReviewController {
         }else {
             return null;
         }
+    }
+
+    @PostMapping("/api/review/delete")
+    public void delete(@RequestBody Review review) throws Exception{
+        reviewService.deleteByID(review.getId());
     }
 }

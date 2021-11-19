@@ -1,9 +1,11 @@
 <template>
   <div>
-    <el-row style="height: 840px;">
-      <div v-for="item in reviews.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+      <div v-for="item in reviews"
                   :key="item.id">
-        <p>Reviews by {{item.user.username}}</p>
+        <p>
+          Reviews by {{item.user.username}}
+          <i class="el-icon-delete" @click="deleteReview(item.id)"></i>
+        </p>
         <el-descriptions class="review_area" direction="vertical" :column="3" border>
           <el-descriptions-item label="movie">{{item.movie.title}}</el-descriptions-item>
           <el-descriptions-item label="Recommended Rating">{{ item.rank1 }}</el-descriptions-item>
@@ -13,16 +15,9 @@
           <el-descriptions-item label="watch date">{{item.watchDate}}</el-descriptions-item>
         </el-descriptions>
       </div>
-      <add-review @onSubmit="loadReviews" ref="edit"></add-review>
-    </el-row>
     <el-row>
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :total="reviews.length">
-      </el-pagination>
     </el-row>
+    <add-review @onSubmit="loadReviews" ref="edit"></add-review>
   </div>
 </template>
 
@@ -34,8 +29,7 @@ export default {
   data () {
     return {
       reviews: [],
-      currentPage: 1,
-      pageSize: 20
+      currentUsername: JSON.parse(localStorage.getItem('user')).username
     }
   },
   mounted: function () {
@@ -50,29 +44,33 @@ export default {
         }
       })
     },
-    handleCurrentChange: function (currentPage) {
-      this.currentPage = currentPage
-      console.log(this.currentPage)
-    },
-    deleteMovie (id) {
-      this.$confirm('this action may cause serious result, will you continue', 'hint', {
-        confirmButtonText: 'yes',
-        cancelButtonText: 'cancel',
-        type: 'warning'
-      }).then(() => {
-        this.$axios
-          .post('/delete', {id: id}).then(resp => {
-            if (resp && resp.status === 200) {
-              this.loadMovies()
-            }
+    deleteReview (id) {
+      const username = JSON.parse(localStorage.getItem('user')).username
+      if (username === 'admin') {
+        this.$confirm('this action may cause serious result, will you continue', 'hint', {
+          confirmButtonText: 'confirm',
+          cancelButtonText: 'cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+            .post('/review/delete', {id: id}).then(resp => {
+              if (resp && resp.status === 200) {
+                this.loadReviews()
+              }
+            })
+        }
+        ).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'cancel delete'
           })
-      }
-      ).catch(() => {
+        })
+      } else {
         this.$message({
           type: 'info',
-          message: 'cancel delete'
+          message: 'Sorry you do not have authority to delete reviews'
         })
-      })
+      }
     }
   }
 }

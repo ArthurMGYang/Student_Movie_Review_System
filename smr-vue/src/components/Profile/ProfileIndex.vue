@@ -5,6 +5,7 @@
     <p>Previous Reviews</p>
     <div class="review_area" v-for="item in reviews"
          :key="item.id">
+      <i class="el-icon-delete" @click="deleteReview(item.id)"></i>
       <el-descriptions title="Previous Review" direction="vertical" :column="4" border>
         <el-descriptions-item label="movie">{{item.movie.title}}</el-descriptions-item>
         <el-descriptions-item label="Recommended Rating">{{ item.rank1 }}</el-descriptions-item>
@@ -45,6 +46,26 @@ export default {
         if (resp && resp.status === 200) {
           _this.reviews = resp.data
         }
+      })
+    },
+    deleteReview (id) {
+      this.$confirm('this action may cause serious result, will you continue', 'hint', {
+        confirmButtonText: 'confirm',
+        cancelButtonText: 'cancel',
+        type: 'warning'
+      }).then(() => {
+        this.$axios
+          .post('/review/delete', {id: id}).then(resp => {
+            if (resp && resp.status === 200) {
+              this.loadReviewInfo()
+            }
+          })
+      }
+      ).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'cancel delete'
+        })
       })
     }
   }

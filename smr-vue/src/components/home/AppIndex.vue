@@ -40,7 +40,6 @@
     <h3>Upcoming Movies</h3>
     <el-calendar v-model="value">
     </el-calendar>
-    <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
   </div>
 </template>
 

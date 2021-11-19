@@ -3,9 +3,10 @@
     <el-row style="height: 840px;">
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <el-tooltip effect="dark" placement="right"
-                  v-for="item in movies.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                  v-for="item in movies"
                   :key="item.id">
         <p slot="content" style="font-size: 14px;margin-bottom: 6px;">{{item.title}}</p>
+        <p slot="content" style="font-size: 14px;margin-bottom: 6px;">Movie id: {{item.id}}</p>
         <p slot="content" style="font-size: 13px;margin-bottom: 6px">
           <span>Director: {{item.director}}</span><br/>
           <span>Starring: {{item.starring}}</span>
@@ -25,14 +26,14 @@
       </el-tooltip>
       <edit-form @onSubmit="loadMovies" ref="edit"></edit-form>
     </el-row>
-    <el-row>
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :total="movies.length">
-      </el-pagination>
-    </el-row>
+<!--    <el-row>-->
+<!--      <el-pagination-->
+<!--        @current-change="handleCurrentChange"-->
+<!--        :current-page="currentPage"-->
+<!--        :page-size="pageSize"-->
+<!--        :total="movies.length">-->
+<!--      </el-pagination>-->
+<!--    </el-row>-->
   </div>
 </template>
 
@@ -61,58 +62,64 @@ export default {
         }
       })
     },
-    handleCurrentChange: function (currentPage) {
-      this.currentPage = currentPage
-      console.log(this.currentPage)
-    },
     searchResult () {
-      var _this = this
+      const _this = this
       this.$axios
-        .post('/search', {
-          keywords: this.$refs.searchBar.keywords
-        }).then(resp => {
+        .post('/search?keywords=' + this.$refs.searchBar.keywords)
+        .then(resp => {
           if (resp && resp.status === 200) {
-            _this.books = resp.data
+            _this.movies = resp.data
           }
         })
     },
     deleteMovie (id) {
-      this.$confirm('this action may cause serious result, will you continue', 'hint', {
-        confirmButtonText: 'yes',
-        cancelButtonText: 'cancel',
-        type: 'warning'
-      }).then(() => {
-        this.$axios
-          .post('/delete', {id: id}).then(resp => {
-            if (resp && resp.status === 200) {
-              this.loadMovies()
-            }
+      const username = JSON.parse(localStorage.getItem('user')).username
+      if (username === 'admin') {
+        this.$confirm('this action may cause serious result, will you continue', 'hint', {
+          confirmButtonText: 'confirm',
+          cancelButtonText: 'cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$axios
+            .post('/movie/delete', {id: id}).then(resp => {
+              if (resp && resp.status === 200) {
+                this.loadMovies()
+              }
+            })
+        }
+        ).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'cancel delete'
           })
-      }
-      ).catch(() => {
+        })
+      } else {
         this.$message({
           type: 'info',
-          message: 'cancel delete'
+          message: 'Sorry you do not have authority to delete movies'
         })
-      })
+      }
     },
     editMovie (item) {
-      this.$refs.edit.dialogFormVisible = true
-      this.$refs.edit.form = {
-        id: item.id,
-        cover: item.cover,
-        title: item.title,
-        director: item.director,
-        starring: item.starring,
-        data: item.date,
-        link: item.link,
-        rank: 0,
-        total_rank: 0,
-        rank_people: 0,
-        public_resource: item.public_resource,
-        category: {
-          id: item.category.id.toString(),
-          name: item.category.name
+      const username = JSON.parse(localStorage.getItem('user')).username
+      if (username === 'admin') {
+        this.$refs.edit.dialogFormVisible = true
+        this.$refs.edit.form = {
+          id: item.id,
+          cover: item.cover,
+          title: item.title,
+          director: item.director,
+          starring: item.starring,
+          data: item.date,
+          link: item.link,
+          rank: 0,
+          total_rank: 0,
+          rank_people: 0,
+          public_resource: item.public_resource,
+          category: {
+            id: item.category.id.toString(),
+            name: item.category.name
+          }
         }
       }
     }

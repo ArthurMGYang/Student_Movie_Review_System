@@ -17,14 +17,19 @@ public class MyWebConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(getLoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/index.html");
+        registry.addInterceptor(getLoginInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/index.html")
+                .excludePathPatterns("/api/login")
+                .excludePathPatterns("/api/logout");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
+                .allowCredentials(true)
+                .allowedOrigins("http://localhost:8080")
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                 .allowedHeaders("*");
     }
 }

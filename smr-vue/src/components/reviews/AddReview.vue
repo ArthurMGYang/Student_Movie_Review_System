@@ -6,9 +6,6 @@
         <el-form-item label="mid" :label-width="formLabelWidth" prop="movie">
           <el-input v-model="form.movie.id" autocomplete="off" placeholder="please input movie id"></el-input>
         </el-form-item>
-        <el-form-item label="uid" :label-width="formLabelWidth" prop="user">
-          <el-input v-model="form.user.id" autocomplete="off" placeholder="please input user id"></el-input>
-        </el-form-item>
         <el-form-item label="rank1" :label-width="formLabelWidth" prop="rank1">
           <el-select v-model="form.rank1" placeholder="What do you think of this movie">
             <el-option label="1" value="1"></el-option>
@@ -54,6 +51,7 @@ export default {
   data () {
     return {
       dialogFormVisible: false,
+      currentUser: '',
       form: {
         id: '',
         rank1: '',
@@ -74,7 +72,18 @@ export default {
       formLabelWidth: '120px'
     }
   },
+  mounted: function () {
+    this.loadUserInfo()
+  },
   methods: {
+    loadUserInfo () {
+      const url = '/users/' + JSON.parse(localStorage.getItem('user')).username
+      this.$axios.get(url).then(resp => {
+        if (resp && resp.status === 200) {
+          this.currentUser = resp.data
+        }
+      })
+    },
     clear () {
       this.form = {
         id: '',
@@ -97,7 +106,7 @@ export default {
           watchDate: this.form.watchDate,
           watchPlace: this.form.watchPlace,
           movie: this.form.movie,
-          user: this.form.user
+          user: this.currentUser
         }).then(resp => {
           if (resp && resp.status === 200) {
             this.dialogFormVisible = false

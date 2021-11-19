@@ -1,6 +1,8 @@
 package com.mao.smr.controller;
 
 import com.mao.smr.entity.Movie;
+import com.mao.smr.result.Result;
+import com.mao.smr.result.ResultFactory;
 import com.mao.smr.service.MovieService;
 import com.mao.smr.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class LibraryController {
         return movie;
     }
 
-    @PostMapping("/api/delete")
+    @PostMapping("/api/movie/delete")
     public void delete(@RequestBody Movie movie) throws Exception{
         movieService.deleteById(movie.getId());
     }
@@ -50,10 +52,8 @@ public class LibraryController {
         }
     }
 
-    @CrossOrigin
-    @GetMapping("/api/search")
+    @PostMapping("/api/search")
     public List<Movie> searchResult(@RequestParam("keywords") String keywords) {
-        // if nothing input show all the movies in the database
         if ("".equals(keywords)) {
             return movieService.list();
         } else {

@@ -17,10 +17,27 @@ public class User {
 
     private String username;
     private String password;
+    private String salt;
     private String phone;
     @Email(message = "please check email format")
     private String email;
+    private String school;
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public int getId() {
         return id;

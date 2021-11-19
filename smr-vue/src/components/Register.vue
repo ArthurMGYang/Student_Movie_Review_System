@@ -1,15 +1,24 @@
 <template>
   <body id="paper">
-  <el-form class="login-container" label-position="left"
+  <el-form class="register-container" label-position="left"
            label-width="0px" v-loading="loading">
-    <h3 class="login_title">User Register</h3>
+    <h3 class="register-title">User Register</h3>
     <el-form-item>
-      <el-input type="text" v-model="loginForm.username"
+      <el-input type="text" v-model="registerForm.username"
                 auto-complete="off" placeholder="Username"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-input type="password" v-model="loginForm.password"
+      <el-input type="password" v-model="registerForm.password"
                 auto-complete="off" placeholder="Password"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-input type="text" v-model="registerForm.phone" autocomplete="off" placeholder="phone number"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-input type="text" v-model="registerForm.email" autocomplete="off" placeholder="email"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-input type="text" v-model="registerForm.school" autocomplete="off" placeholder="school name"></el-input>
     </el-form-item>
     <el-form-item style="width: 100%">
       <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="register">Register!</el-button>
@@ -21,10 +30,17 @@
 export default{
   data () {
     return {
+      rules: {
+        username: [{required: true, message: 'Username can not be empty', trigger: 'blur'}],
+        password: [{required: true, message: 'Password can not be empty', trigger: 'blur'}]
+      },
       checked: true,
-      loginForm: {
+      registerForm: {
         username: '',
-        password: ''
+        password: '',
+        phone: '',
+        email: '',
+        school: ''
       },
       loading: false
     }
@@ -34,18 +50,21 @@ export default{
       const _this = this
       this.$axios
         .post('/register', {
-          username: this.loginForm.username,
-          password: this.loginForm.password
+          username: this.registerForm.username,
+          password: this.registerForm.password,
+          phone: this.registerForm.phone,
+          email: this.registerForm.email,
+          school: this.registerForm.school
         })
         .then(resp => {
           if (resp.data.code === 200) {
             this.$alert('successful', 'hint', {
-              confirmButtonText: 'sure'
+              confirmButtonText: 'confirm'
             })
             _this.$router.replace('/login')
           } else {
             this.$alert(resp.data.message, 'hint', {
-              confirmButtonText: 'sure'
+              confirmButtonText: 'confirm'
             })
           }
         })
@@ -66,7 +85,7 @@ export default{
 body{
   margin: -5px 0px;
 }
-.login-container {
+.register-container {
   border-radius: 15px;
   background-clip: padding-box;
   margin: 90px auto;
@@ -76,7 +95,7 @@ body{
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
-.login_title {
+.register-title {
   margin: 0px auto 40px auto;
   text-align: center;
   color: #505458;
