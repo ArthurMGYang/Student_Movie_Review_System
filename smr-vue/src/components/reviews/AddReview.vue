@@ -6,7 +6,7 @@
         <el-form-item label="mid" :label-width="formLabelWidth" prop="movie">
           <el-input v-model="form.movie.id" autocomplete="off" placeholder="please input movie id"></el-input>
         </el-form-item>
-        <el-form-item label="rank1" :label-width="formLabelWidth" prop="rank1">
+        <el-form-item label="movie content" :label-width="formLabelWidth" prop="rank1">
           <el-select v-model="form.rank1" placeholder="What do you think of this movie">
             <el-option label="1" value="1"></el-option>
             <el-option label="2" value="2"></el-option>
@@ -15,7 +15,7 @@
             <el-option label="5" value="5"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="rank1" :label-width="formLabelWidth" prop="rank2">
+        <el-form-item label="recommendation" :label-width="formLabelWidth" prop="rank2">
           <el-select v-model="form.rank2" placeholder="What do you think of this movie">
             <el-option label="1" value="1"></el-option>
             <el-option label="2" value="2"></el-option>

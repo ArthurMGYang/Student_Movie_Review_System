@@ -20,20 +20,12 @@
             <div class="title">
               <a href="">{{item.title}}</a>
             </div>
-            <i class="el-icon-delete" @click="deleteMovie(item.id)"></i>
+            <i v-if='currentUsername === "admin"' class="el-icon-delete" @click="deleteMovie(item.id)"></i>
           </div>
         </el-card>
       </el-tooltip>
-      <edit-form @onSubmit="loadMovies" ref="edit"></edit-form>
+      <div v-if='currentUsername === "admin"'><edit-form @onSubmit="loadMovies" ref="edit"></edit-form></div>
     </el-row>
-<!--    <el-row>-->
-<!--      <el-pagination-->
-<!--        @current-change="handleCurrentChange"-->
-<!--        :current-page="currentPage"-->
-<!--        :page-size="pageSize"-->
-<!--        :total="movies.length">-->
-<!--      </el-pagination>-->
-<!--    </el-row>-->
   </div>
 </template>
 
@@ -46,14 +38,17 @@ export default {
   data () {
     return {
       movies: [],
-      currentPage: 1,
-      pageSize: 20
+      currentUsername: []
     }
   },
   mounted: function () {
     this.loadMovies()
+    this.loadCurrentUser()
   },
   methods: {
+    loadCurrentUser () {
+      this.currentUsername = JSON.parse(localStorage.getItem('user')).username
+    },
     loadMovies () {
       const _this = this
       this.$axios.get('/movies').then(resp => {
@@ -73,8 +68,7 @@ export default {
         })
     },
     deleteMovie (id) {
-      const username = JSON.parse(localStorage.getItem('user')).username
-      if (username === 'admin') {
+      if (this.currentUsername === 'admin') {
         this.$confirm('this action may cause serious result, will you continue', 'hint', {
           confirmButtonText: 'confirm',
           cancelButtonText: 'cancel',
@@ -101,8 +95,7 @@ export default {
       }
     },
     editMovie (item) {
-      const username = JSON.parse(localStorage.getItem('user')).username
-      if (username === 'admin') {
+      if (this.currentUsername === 'admin') {
         this.$refs.edit.dialogFormVisible = true
         this.$refs.edit.form = {
           id: item.id,
@@ -121,6 +114,11 @@ export default {
             name: item.category.name
           }
         }
+      } else {
+        this.$message({
+          type: 'info',
+          message: 'Sorry you do not have authority to edit movies'
+        })
       }
     }
   }

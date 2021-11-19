@@ -4,7 +4,7 @@
                   :key="item.id">
         <p>
           Reviews by {{item.user.username}}
-          <i class="el-icon-delete" @click="deleteReview(item.id)"></i>
+          <i v-if='currentUsername === "admin"' class="el-icon-delete" @click="deleteReview(item.id)"></i>
         </p>
         <el-descriptions class="review_area" direction="vertical" :column="3" border>
           <el-descriptions-item label="movie">{{item.movie.title}}</el-descriptions-item>

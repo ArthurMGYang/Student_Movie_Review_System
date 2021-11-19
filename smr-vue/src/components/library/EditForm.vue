@@ -82,22 +82,30 @@ export default {
       }
     },
     onSubmit () {
-      this.$axios
-        .post('/movies', {
-          id: this.form.id,
-          cover: this.form.cover,
-          title: this.form.title,
-          director: this.form.director,
-          starring: this.form.starring,
-          data: this.form.date,
-          public_resource: this.form.public_resource,
-          category: this.form.category
-        }).then(resp => {
-          if (resp && resp.status === 200) {
-            this.dialogFormVisible = false
-            this.$emit('onSubmit')
-          }
+      const username = JSON.parse(localStorage.getItem('user')).username
+      if (username === 'admin') {
+        this.$axios
+          .post('/movies', {
+            id: this.form.id,
+            cover: this.form.cover,
+            title: this.form.title,
+            director: this.form.director,
+            starring: this.form.starring,
+            data: this.form.date,
+            public_resource: this.form.public_resource,
+            category: this.form.category
+          }).then(resp => {
+            if (resp && resp.status === 200) {
+              this.dialogFormVisible = false
+              this.$emit('onSubmit')
+            }
+          })
+      } else {
+        this.$message({
+          type: 'info',
+          message: 'cancel delete'
         })
+      }
     },
     uploadImg () {
       this.form.cover = this.$refs.imgUpload.url
