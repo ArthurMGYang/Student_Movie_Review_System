@@ -1,7 +1,7 @@
 <template>
   <div>
     <i class="el-icon-circle-plus-outline" @click="dialogFormVisible = true"></i>
-    <el-dialog title="add/modify movie" :visible.sync="dialogFormVisible" @close="clear">
+    <el-dialog title="add movie" :visible.sync="dialogFormVisible" @close="clear">
       <el-form v-model="form" style = "text-align: left" ref="dataForm">
         <el-form-item label="title" :label-width="formLabelWidth" prop="title">
           <el-input v-model="form.title" autocomplete="off" placeholder="please input title"></el-input>
