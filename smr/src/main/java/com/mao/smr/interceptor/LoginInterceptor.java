@@ -8,8 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * the LoginInterceptor is used to intercept those users without logged in
+ */
 public class LoginInterceptor implements HandlerInterceptor {
 
+    /**
+     * if the user go to the index page which contains the whole one-page application
+     * the user will be direct to login page
+     */
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception{
         HttpSession session = httpServletRequest.getSession();
         String contextPath = session.getServletContext().getContextPath();

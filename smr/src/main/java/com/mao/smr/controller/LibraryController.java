@@ -13,16 +13,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * the controller classes are related to front end application operations
+ * this controller mainly controls the operations in the library page in the front end
+ */
 @RestController
 public class LibraryController {
     @Autowired
     MovieService movieService;
 
+    /**
+     * list all the movies in the link below
+     * the front end page will get throw there to get the information
+     * and then show them in the way with the front end vue code
+     */
     @GetMapping("/api/movies")
     public List<Movie> list() throws Exception{
         return movieService.list();
     }
 
+    /**
+     * when add a movie in the front end page
+     * it post the information in the link and then, this method will add it into the database
+     */
     @PostMapping("/api/movies")
     public Movie addOrUpdate(@RequestBody Movie movie) throws Exception{
         movieService.addOrUpdate(movie);
@@ -61,6 +74,10 @@ public class LibraryController {
         }
     }
 
+    /**
+     * when adding a movie, it needs an image as the cover
+     * this method used to store the cover images into the path given below
+     */
     @CrossOrigin
     @PostMapping("api/covers")
     public String coversUpload(MultipartFile file) throws Exception {

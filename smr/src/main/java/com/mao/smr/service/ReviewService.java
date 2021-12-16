@@ -20,29 +20,39 @@ public class ReviewService {
     @Autowired
     UserService userService;
 
+    /**
+     * list all the reviews in the database by id with a descending order
+     */
     public List<Review> list(){
         Sort sortByIDDescending = new Sort(Sort.Direction.DESC, "id");
         return reviewDAO.findAll(sortByIDDescending);
     }
 
+    /**
+     * add a new review into the database
+     */
     public void addReview(Review review){
         reviewDAO.save(review);
     }
 
+    /**
+     * delete a review in the database, with the help of front end check, only administrator can do this
+     */
     public void deleteByID(int id){
         reviewDAO.deleteById(id);
     }
 
+    /**
+     * list all the reviews on a certain movie
+     */
     public List<Review> listByMovie(int mID){
         Movie movie = movieService.getById(mID);
         return reviewDAO.findAllByMovie(movie);
     }
 
-    public List<Review> listByUser(int uID){
-        User user = userService.getByID(uID);
-        return reviewDAO.findAllByUser(user);
-    }
-
+    /**
+     * list all the reviews written by a certain user
+     */
     public List<Review> listByUserName(String username){
         User user = userService.getByName(username);
         return reviewDAO.findAllByUser(user);

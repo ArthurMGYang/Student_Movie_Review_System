@@ -1,8 +1,12 @@
 package com.mao.smr.result;
 
+/**
+ * the result can be created by the constructor of the Result class
+ * but this project use the factory to create it
+ */
 public class ResultFactory {
     public static Result buildSuccessResult(Object data) {
-        return buildResult(ResultCode.SUCCESS, "成功", data);
+        return buildResult(ResultCode.SUCCESS, "successful", data);
     }
 
     public static Result buildFailResult(String message) {

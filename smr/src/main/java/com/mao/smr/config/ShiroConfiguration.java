@@ -12,6 +12,11 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Shiro in this project mainly used to add salt to the password and increase the security
+ * Some config is learned from other project
+ * but some information has been adapted to this project
+ */
 @Configuration
 public class ShiroConfiguration {
     @Bean
@@ -58,14 +63,18 @@ public class ShiroConfiguration {
     public CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(rememberMeCookie());
-        cookieRememberMeManager.setCipherKey("EVANNIGHTLY_WAOU".getBytes());
+        cookieRememberMeManager.setCipherKey("Mao_Yang".getBytes());
         return cookieRememberMeManager;
     }
 
+    /**
+     * set how long will the information been remembered
+     * 2592000 seconds means 30 days
+     */
     @Bean
     public SimpleCookie rememberMeCookie() {
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        simpleCookie.setMaxAge(259200);
+        simpleCookie.setMaxAge(2592000);
         return simpleCookie;
     }
 

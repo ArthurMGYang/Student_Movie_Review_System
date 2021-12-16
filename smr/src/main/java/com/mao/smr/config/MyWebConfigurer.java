@@ -10,11 +10,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootConfiguration
 public class MyWebConfigurer implements WebMvcConfigurer {
 
+    /**
+     * Use the interceptor to intercept those non-log-in users
+     */
     @Bean
     public LoginInterceptor getLoginInterceptor() {
         return new LoginInterceptor();
     }
 
+    /**
+     * define which pages need to be intercepted
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(getLoginInterceptor())
@@ -24,6 +31,10 @@ public class MyWebConfigurer implements WebMvcConfigurer {
                 .excludePathPatterns("/api/logout");
     }
 
+    /**
+     * with this method, the front-end codes can use methods below to interact with the data in the backend
+     * @param registry
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

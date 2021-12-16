@@ -26,6 +26,9 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    /**
+     * used to check the information input by the users when they log in
+     */
     @PostMapping("/api/login")
     @ResponseBody
     public Result login(@RequestBody User requestUser) {
@@ -33,9 +36,8 @@ public class LoginController {
         username = HtmlUtils.htmlEscape(username);
 
         Subject subject = SecurityUtils.getSubject();
-//        subject.getSession().setTimeout(10000);
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, requestUser.getPassword());
-        usernamePasswordToken.setRememberMe(true);
+        usernamePasswordToken.setRememberMe(true);//let the webpages remember the user info after the user log in
         try {
             subject.login(usernamePasswordToken);
             User user = userService.getByName(username);
@@ -48,6 +50,10 @@ public class LoginController {
     }
 
 
+    /**
+     * used to register a new user
+     * @param user the user instance is created with the information input by the user in the registration page
+     */
     @PostMapping("api/register")
     @ResponseBody
     public Result register(@RequestBody User user) {
@@ -56,7 +62,7 @@ public class LoginController {
         username = HtmlUtils.htmlEscape(username);
         user.setUsername(username);
 
-        boolean exist = userService.isExist(username);
+        boolean exist = userService.isExist(username);//make sure the username is unique
         if (exist) {
             String message = "this username has already been taken";
             return ResultFactory.buildFailResult(message);

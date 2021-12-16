@@ -9,6 +9,10 @@ import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
+/**
+ * this controller used to control the operations in review pages
+ * although some methods are different, it has the similar logic as the Library Controller
+ */
 @RestController
 public class ReviewController {
 

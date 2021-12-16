@@ -1,5 +1,8 @@
 package com.mao.smr.result;
 
+/**
+ * use enum class to show the possibilities the result code may have
+ */
 public enum ResultCode {
     SUCCESS(200),
     FAIL(400),

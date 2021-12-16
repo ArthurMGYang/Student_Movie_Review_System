@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
+/**
+ * all the entities are the classes represent to the tables in the database
+ * the all have the attribute the same as the tables, and they have getters and setters for those attributes
+ */
 @Entity
 @Table(name = "category")
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer"})

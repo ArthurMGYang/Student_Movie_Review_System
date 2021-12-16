@@ -10,6 +10,10 @@ public class UserService {
     @Autowired
     UserDAO userDAO;
 
+    /**
+     * this is used to check if there is a user with a username already in the database
+     * used in the registration progress to make sure every user have different username
+     */
     public boolean isExist(String username) {
         User user = getByName(username);
         return null!=user;
@@ -26,6 +30,10 @@ public class UserService {
         return userDAO.getByUsernameAndPassword(username, password);
     }
 
+
+    /**
+     * add a new user into the database, in the front end, this is the registration progress
+     */
     public void add(User user) {
         userDAO.save(user);
     }

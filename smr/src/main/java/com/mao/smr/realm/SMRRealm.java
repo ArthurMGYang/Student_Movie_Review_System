@@ -10,6 +10,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Realm is used in Shiro framework to make the operations can only be processed after the user logged in
+ */
 public class SMRRealm extends AuthorizingRealm {
 
     @Autowired
